@@ -1,19 +1,32 @@
 <template>
-  <div class="home flex-grow-1 d-flex flex-column align-items-center justify-content-center">
-    <div class="home-card p-5 bg-white rounded elevation-3">
-      <img src="https://bcw.blob.core.windows.net/public/img/8600856373152463" alt="CodeWorks Logo"
-        class="rounded-circle">
-      <h1 class="my-5 bg-dark text-white p-3 rounded text-center">
-        Vue 3 Starter
-      </h1>
-    </div>
-  </div>
+
+
+
 </template>
 
 <script>
+import { logger } from "../utils/Logger.js"
+import { onMounted,ref,computed } from "vue"
+import { Account } from "../models/Account.js"
+import Pop from "../utils/Pop.js";
+import { towerEventsService } from '../services/TowerEventsService.js';
 export default {
   setup() {
-    return {}
+    onMounted(() => getTowerEvents())
+
+    async function getTowerEvents() {
+      try {
+        await towerEventsService.getTowerEvents()
+
+      } catch (error) {
+        logger.log(error.message)
+      }
+
+    }
+    return {
+      account: computed(() => AppState.account)
+
+    }
   }
 }
 </script>
