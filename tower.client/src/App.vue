@@ -3,11 +3,20 @@
     <Navbar />
   </header>
   <main>
-    <router-view />
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12 col-md-11">
+          <router-view />
+
+        </div>
+        <div class="col-1">
+          <p>Login</p>
+
+        </div>
+      </div>
+    </div>
   </main>
-   <footer class="bg-dark text-light">
-    Made with 💖 by CodeWorks
-  </footer>
+ 
 </template>
 
 <script>
@@ -26,6 +35,7 @@ export default {
 </script>
 <style lang="scss">
 @import "./assets/scss/main.scss";
+
 
 :root{
   --main-height: calc(100vh - 32px - 64px);

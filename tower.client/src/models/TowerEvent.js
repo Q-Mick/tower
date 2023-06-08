@@ -15,7 +15,7 @@ function formatDateAndTime(dateString) {
 }
 
 
-class TowerEvent {
+export class TowerEvent {
   constructor(data) {
     this.id = data.id;
     this.creatorId = data.creatorId;
@@ -25,7 +25,7 @@ class TowerEvent {
     this.location = data.location;
     this.capacity = data.capacity;
     this.startDate = data.startDate;
-    this.isCanceled = data.canceled;
+    this.isCanceled = data.isCanceled;
     this.type = data.type;
   }
 }

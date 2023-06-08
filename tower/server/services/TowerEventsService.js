@@ -17,13 +17,23 @@ class TowerEventsService{
         }
         return event
     }
-    async editEvent(eventId, userId, eventData) {
+    async editEvent(eventData ,eventId, userId) {
         const event = await this.findEventById(eventId)
         if (event.isCanceled == true) {
             throw new BadRequest("You can not edit a cancelled event")
         }if (event.creatorId != userId){
             throw new Forbidden("This is not your event to edit")
         }
+        event.name = eventData.name || event.name
+        event.description = eventData.description || event.description
+        event.location = eventData.location || event.location
+        event.capacity = eventData.capacity || event.capacity
+        event.startDate = eventData.startDate || event.startDate
+        event.type = eventData.type || event.type
+        event.coverImg = eventData.coverImg || event.coverImg
+        await event.save()
+        return event
+
 
         //TODO finish this 
       
