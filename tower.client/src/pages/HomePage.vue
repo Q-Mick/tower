@@ -6,15 +6,15 @@
 
     <div class="row justify-content-center">
       <div class="col-11">
-        <div class="d-flex justify-content-center">
-          <img class="banner-container" src="https://reporter.lcms.org/wp-content/uploads/2021/09/YouthLead.jpg" alt="">
+        <div class="d-flex justify-content-center banner-container">
+          <img class="" src="../assets/img/banner.jpg" alt="">
         </div>
       </div>
     </div>
 
     <section class="row justify-content-center">
-      <div class="col-10">
-        <div class="filter-row d-flex justify-content-around p-3 bungee">
+      <div class="col-12 col-md-10 mt-2" style="width: 90%;">
+        <div class="elevation-5 my-2 p-3 rounded d-flex justify-content-around filter-bar">
           <button @click="filterBy = ''" class="btn btn-outline-light w-25">All</button>
           <button @click="filterBy = 'concert'" class="btn btn-outline-light w-25">Concert</button>
           <button @click="filterBy = 'convention'" class="btn btn-outline-light w-25">Convention</button>
@@ -24,7 +24,7 @@
       </div>
     </section>
     <section class="row px-5">
-      <div class="col-md-3 my-3 p-4" v-for="e in events" :key="e.id">
+      <div class="col-md-3 my-2 p-3" v-for="e in events" :key="e.id">
         <!-- STUB album card template -->
         <EventCard :event="e" />
       </div>
@@ -59,75 +59,85 @@ export default {
       filterBy,
       account: computed(() => AppState.account),
       events: computed(() => {
-        if(filterBy.value == "") {
-      return AppState.events
-    } else {
-      return AppState.events.filter(e => e.type == filterBy.value)
-    }
+        if (filterBy.value == "") {
+          return AppState.events
+        } else {
+          return AppState.events.filter(e => e.type == filterBy.value)
+        }
       }),
-    
-}
+
+    }
   }
 }
 </script>
 
 <style scoped lang="scss">
-.home {
-  display: grid;
-  height: 80vh;
-  place-content: center;
-  text-align: center;
-  user-select: none;
+body {
+  background-color: #CCCCCC;
+}
 
-  .home-card {
-    width: 50vw;
+.post-card {
+  color: white;
+  background: linear-gradient(1turn, #121218, rgba(18, 18, 24, 0));
+  // outline: solid linear-gradient(210deg,rgba(0,255,85,.6),#70f7ff 10%,#76b6fe 60%,#000 80%);
+  // box-shadow: 0 0 0 2px rgba(0, 255, 85, .6), 0 0 0 4px #70f7ff, 0 0 0 6px #76b6fe, 0 0 0 8px #000;
+  // margin: 0.25rem;
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+  // transition: transform 0.3s ease;
+}
 
-    >img {
-      height: 300px;
-      max-width: 200px;
-      width: 100%;
-      object-fit: contain;
-      object-position: center;
-    }
+.filter-bar {
+  background: #474C61;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 3px;
+  width: auto;
+
+  button{
+    margin-left: 2px;
   }
 }
 
-.filter-row {
-  background-color: #CCCCCC;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  height: 40px;
-  // padding: 10px;
-  margin-top: 5px;
-  width: 100%;
-}
+// .filter-row {
+//   background-color: #CCCCCC;
+//   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+//   height: 40px;
+//   // padding: 10px;
+//   margin-top: 5px;
+//   width: 100%;
+// }
 
-.filter-row p {
-  color: #FFFFFF;
-}
+// .filter-row p {
 
-.filter-row p:hover,
-.filter-row p:focus {
-  color: #008080;
-  // border-bottom: 2px solid #008080;
-}
+// }
+
+// .filter-row p:hover,
+// .filter-row p:focus {
+//   color: #008080;
+//   // border-bottom: 2px solid #008080;
+// }
 
 .banner-container {
-  position: relative;
-  // left: 2rem;
+  // position: relative;
   width: 100%;
-  height: 15rem;
-  /* Adjust the height as needed */
+  height: 100%;
+  /* Adjust the height as needed,*/
   overflow: hidden;
+  // overflow-y: scroll;
+  // max-height: 50vh
+}
+.scroller{
+  overflow-y: scroll;
+  max-height: 100vh
 }
 
 .banner-container img {
   // position: absolute;
   width: 100%;
-  height: 100%;
+  max-height: 100%;
   object-fit: cover;
-  object-position: px100;
-
-
+  // object-position: 0px -328px;
+  border: solid 1px blue;
 }
 
 .avatar-container {

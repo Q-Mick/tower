@@ -11,7 +11,8 @@ function formatDateAndTime(dateString) {
     hours = hours % 12 || 12;
     const formattedTime = `${hours}:${minutes.toString().padStart(2, '0')} ${amPm}`;
   
-    return `${formattedDate} ${formattedTime}`;
+    return {formattedDate, formattedTime};
+    
 }
 
 
@@ -24,8 +25,11 @@ export class TowerEvent {
     this.coverImg = data.coverImg;
     this.location = data.location;
     this.capacity = data.capacity;
-    this.startDate = data.startDate;
+    this.startDate = formatDateAndTime(data.startDate).formattedDate;
+    this.startTime = formatDateAndTime(data.startDate).formattedTime
     this.isCanceled = data.isCanceled;
     this.type = data.type;
+    this.ticketCount = data.ticketCount;
+    this.creator = data.creator
   }
 }
