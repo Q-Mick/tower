@@ -12,7 +12,7 @@
         <div class="row text-light">
 
             <!-- TODO image of active event -->
-            <div class="row event-glass elevation-5" style="padding-top: 0;">
+            <div class="row event-glass elevation-5 p-3" style="padding-top: 0;">
                 <div class="text-center bg-danger">
                     <!-- TODO OPEN EDIT EVENT MODAL -->
                     <p style="border: none;" class="m-0 text-light fs-2 bg-transparent mt-0"
@@ -49,7 +49,7 @@
     
     <button v-if="!isCanceled && isCreator" @click="cancelEvent()" class="btn btn-warning mx-2"
     style="background-color: #FFD464;margin-bottom: 5px; height: 2.5rem;">Cancel Event </button>
-    <button v-if="!isAttending && !isCanceled" @click="createTicket()" class="btn btn-warning"
+    <button v-if="!isAttending" @click="createTicket()" class="btn btn-warning"
     style="background-color: #FFD464;margin-bottom: 5px; height: 2.5rem;">Attend </button>
     <button v-else="" @click="deleteTicket()" class="btn btn-warning"
     style="background-color: #FFD464;margin-bottom: 5px; height: 2.5rem;">Cancel Ticket</button>
@@ -227,6 +227,10 @@ export default {
                 }
             },
             async createTicket() {
+                if (AppState.activeEvent.isCanceled) {
+                    Pop.toast("Im sorry but this event is canceled")
+                    return
+                }
                 if (AppState.activeEvent.capacity == 0) {
                     Pop.toast("Im sorry but this event is sold out")
                     return
@@ -274,9 +278,12 @@ export default {
     height: 95%;
     /* Adjust the height as needed */
     overflow: hidden;
+    object-fit: cover;
+    object-position: center;
 }
 
 .banner-container img {
+    // position: absolute;
     width: 100%;
     height: 100%;
     object-fit: cover;
