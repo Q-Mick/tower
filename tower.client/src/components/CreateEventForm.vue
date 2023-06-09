@@ -34,7 +34,7 @@
                 </div>
                 <div>
                     <label class="m-1" for="floatingInput">Category</label>
-                    <select name="category" id="category" v-model="editable.category">
+                    <select name="category" id="category" v-model="editable.type">
                         <option value="concert">Concert</option>
                         <option value="convention">Convention</option>
                         <option value="sport">Sport</option>
@@ -46,11 +46,11 @@
                 <form>
                     <div class="form-group">
                         <label for="date">Event date:</label>
-                        <input type="date" class="form-control" id="date" name="date">
+                        <input v-model="editable.startDate" type="date" class="form-control" id="date" name="date">
                     </div>
                     <div class="form-group">
                         <label for="time">Event time:</label>
-                        <input type="time" class="form-control" id="time" name="time">
+                        <input v-model="editable.startTime" type="time" class="form-control" id="time" name="time">
                     </div>
                 </form>
 

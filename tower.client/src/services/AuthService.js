@@ -5,6 +5,7 @@ import { router } from '../router'
 import { accountService } from './AccountService'
 import { api } from './AxiosService'
 import { socketService } from './SocketService'
+import { towerEventsService } from "./TowerEventsService.js"
 
 export const AuthService = initialize({
   domain,
@@ -27,6 +28,15 @@ AuthService.on(AuthService.AUTH_EVENTS.AUTHENTICATED, async function() {
   await accountService.getAccount()
   socketService.authenticate(AuthService.bearer)
   // NOTE if there is something you want to do once the user is authenticated, place that here
+  await towerEventsService.getMyTickets()
+//   async function getMyTickets() {
+//     try {
+      
+//         await towerEventsService.getMyTickets()
+//     } catch (error) {
+//         logger.log(error);
+//     }
+// }
 })
 
 async function refreshAuthToken(config) {

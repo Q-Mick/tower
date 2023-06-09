@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col-12">
-      <h1 class="mx-5 text-white">Tower</h1>
+      <h1 class="mx-5 text-white thin-text">Tower Events - Find or host your next event</h1>
     </div>
 
     <div class="row justify-content-center">
@@ -157,5 +157,9 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+.thin-text {
+    font-weight: 300;
+
 }
 </style>

@@ -29,53 +29,46 @@
           </div>
           
         </div>
-
-
-
-    </div>
-  </div>
-  <div class="row">
-    <div class="card-body">
-
-
-      <div class="post-card elevation-5 mt-3 m-1 p-1">
-
-        <form class="" @submit.prevent="handleSubmit">
-          <div v-if="account.id" class="card-body">
-
-            <div class="input-group mb-3">
-              <span class="input-group-text" id="basic-addon1">Name:</span>
-              <input name="name" class="input-text form-control" placeholder="Name" type="text" required
-                v-model="editable.name">
-            </div>
-
-            <div class="input-group mb-3">
-              <span class="input-group-text">Bio:</span>
-              <textarea v-model="editable.bio" class="text-area form-control" aria-label="With textarea"></textarea>
-            </div>
-
-            <div class="input-group mb-3">
-              <span class="input-group-text" id="basic-addon1">Profile Pic:</span>
-              <input name="picture" class="input-text form-control" placeholder="Profile Picture" type="url" required
-                v-model="editable.picture">
-            </div>
-
-            <div class="input-group mb-3">
-              <span class="input-group-text" id="basic-addon1">Profile Banner:</span>
-              <input name="cover-img" class="input-text form-control" placeholder="Cover image" type="url" required
-                v-model="editable.coverImg">
-            </div>      
-            <div class="text-end">
-              <button class="edit-btn m-2 fs-6" type="submit">Save Account</button>
-            </div>
-          </div>
-        </form>
+       
+        
       </div>
+    </div>
+    <div class="row">
+    
+      <div class="col-1 post-card" v-for="t in myTickets" :key="t.id">
+        <router-link :to="{ name: 'EventDetails', params: { id: event.id } }">
 
+<!-- <div :style="{ backgroundImage: 'url(' + event.coverImg + ')' }">
+<p>test</p>
+</div> -->
+
+<div class="banner-container rounded elevation-5">
+    <img class="rounded-top" :src="myTicket.event?.coverImg" :alt="myTicket.event?.title">
+
+    <div class="glass-card">
+        <p class="fw-bold my-0">{{ myTicket.event.name }}</p>
+        <p class="my-0">{{ myTicket.event.location }}</p>
+        <p class="my-0">{{ myTicket.event.startDate }}</p>
+        <div v-if="myTicket.!event.isCanceled" class="text-end">
+            <p class="my-0"><span>{{ myTicket.event.capacity - event.ticketCount }}</span> tickets left</p>
+        </div>
+        <div v-if="event.isCanceled" class="text-center bg-danger text-dark">
+            Event Canceled
+        </div>
+    </div>
+
+</div>
+</router-link>
+                </div>
+  
+          
+          
+    
+
+    
     </div>
 
 
-  </div>
 </template>
 
 <script>
@@ -83,6 +76,10 @@ import { ref, watchEffect, computed, onMounted } from 'vue';
 import { AppState } from '../AppState.js';
 import { accountService } from '../services/AccountService.js';
 import Pop from '../utils/Pop.js';
+import { logger } from "../utils/Logger.js"
+import { Account } from "../models/Account.js"
+import { towerEventsService } from '../services/TowerEventsService.js';
+
 
 export default {
   setup() {
@@ -93,28 +90,17 @@ export default {
 
 
     return {
+      myTickets: computed(() => AppState.myTickets),
       account: computed(() => AppState.account),
       editable,
-      async handleSubmit() {
-        try {
-          Pop.toast('updating account')
-          await accountService.editAccount(editable.value)
-        } catch (error) {
-          Pop.error(error, '[Editing Account]')
-        }
-      },
-      toLink(url) {
-
-        if (url) {
-          const link = url
-          window.location.href = link;
-        } else {
-          Pop.toast("Profile has no link shared")
-        }
-      },
-      inEdit(){
-        Pop.toast("Edit account in the form below")
-      }
+      allEvents: computed(() => AppState.events),
+      events: computed(() => {
+        AppState.events.filter((e => e.creatorId == AppState.account.id))
+       
+      }),
+      
+      
+     
     }
   }
 }

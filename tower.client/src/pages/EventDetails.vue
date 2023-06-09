@@ -13,14 +13,16 @@
 
             <!-- TODO image of active event -->
             <div class="row event-glass elevation-5" style="padding-top: 0;">
-                <div class="text-end">
+                <div class="text-center bg-danger">
                     <!-- TODO OPEN EDIT EVENT MODAL -->
-                    <button style="border: none;" class="m-0 text-light fs-2 bg-transparent mt-0"
-                        v-if="isCreator">...</button>
+                    <p style="border: none;" class="m-0 text-light fs-2 bg-transparent mt-0"
+                        v-if="isCanceled">Event has been cancelled</p>
                 </div>
 
                 <div class="col-4">
-                    <img class="event-img" :src="activeEvent?.coverImg" alt="">
+                    <div class="banner-container">
+                        <img class="" :src="activeEvent?.coverImg" alt="">
+                    </div>
                 </div>
                 <!-- TODO event data -->
                 <section class="col-8">
@@ -36,17 +38,32 @@
                     </div>
 
                     <div class="col-12">
-                        <p class="thin-text" style="min-height: 14rem">{{ activeEvent?.description }}</p>
+                        <p class="thin-text" style="min-height: 15rem">{{ activeEvent?.description }}</p>
                     </div>
 
                     <div class="d-flex justify-content-between bottoms">
-                        <!-- <div class="d-flex justify-content-between"> -->
-                        <p class="text-decoration-underline">{{ activeEvent?.capacity - activeEvent?.ticketCount }} Tickets
-                            remaining</p>
-                        <button @click="createTicket()" class="btn btn-warning"
-                            style="background-color: #FFD464;margin-bottom: 5px; height: 2.5rem;">Attend</button>
-                        <!-- </div> -->
+                    <!-- <div class="d-flex justify-content-between"> -->
+                        <span class="text-decoration-underline">{{ activeEvent?.capacity - activeEvent?.ticketCount }} Tickets
+                            remaining</span>
+<div class="">
+    
+    <button v-if="!isCanceled && isCreator" @click="cancelEvent()" class="btn btn-warning mx-2"
+    style="background-color: #FFD464;margin-bottom: 5px; height: 2.5rem;">Cancel Event </button>
+    <button v-if="!isAttending && !isCanceled" @click="createTicket()" class="btn btn-warning"
+    style="background-color: #FFD464;margin-bottom: 5px; height: 2.5rem;">Attend </button>
+    <button v-else="" @click="deleteTicket()" class="btn btn-warning"
+    style="background-color: #FFD464;margin-bottom: 5px; height: 2.5rem;">Cancel Ticket</button>
+    
+</div>
+<!-- <div>
+<p>test</p>
+</div> -->
+
+                        
+
+                        
                     </div>
+                    
 
                 </section>
             </div>
@@ -55,8 +72,13 @@
                 style="min-height: 4rem;position: relative; margin-top: 2rem;">
                 <p class="" style="position: absolute; left: 15px; top: -32px;">Attendees</p>
 
-                <div class="avatar-container" v-for="t in tickets" :key="t.id">
-                    <img :src="t?.profile?.picture" class="" alt="">
+                <div class="col-1" v-for="t in tickets" :key="t.id">
+                    <p class="m-0">{{ t.profile.name }}</p>
+                    <div class="avatar-container">
+
+                        <img :src="t?.profile?.picture" class="" :alt="t?.profile.name">
+                    </div>
+
                 </div>
 
 
@@ -98,6 +120,9 @@
                                     <div class="elevation-5 text-dark bg-white rounded mx-1" style="width: 90%;">
                                         <p class="my-0 mx-1 fw-bold">{{ c?.creator.name }}</p>
                                         <p class="my-0 mx-1 thin-text">{{ c.body }}</p>
+                                    </div>
+                                    <div v-if="c?.creatorId == account.id" class="text-end">
+                                        <i @click="deleteComment(c.id)" class="mdi mdi-delete text-danger"></i>
                                     </div>
                                 </div>
 
@@ -151,6 +176,7 @@ export default {
                 logger.log(error);
             }
         }
+
         async function getCommentsById() {
             try {
                 const eventId = route.params.id
@@ -159,29 +185,10 @@ export default {
                 logger.log(error);
             }
         }
-        async function getMyTickets() {
-            try {
-                await towerEventsService.getMyTickets()
-            } catch (error) {
-                logger.log(error);
-            }
-        }
-        async function createTicket() {
-            try {
-                const newTicket = { eventId: activeEvent.eventId, accountId: account.id }
-                AppState.myTickets = await getMyTickets()
-                const foundTicket = AppState.myTickets.find(ticket => ticket.eventId === newTicket.eventId);
-                if (foundTicket) {
-                    Pop.toast("You already have a ticket for this event")
-                    return
-                } else {
-                    await towerEventsService.createTicket(newTicket)
-                }
-            } catch (error) {
-                logger.log(error);
-            }
-        }
+
+
         onMounted(() => {
+
 
             getEventById()
             getEventTicketsById()
@@ -190,30 +197,55 @@ export default {
         })
         return {
             postData,
-            async createComment(){
+            async cancelEvent(){
                 try {
-                    const trimmedComment = postData.value.trim();
-                    if (trimmedSearch.length == 0) {
-            Pop.toast("Comments must contain a body")
-            return
-          }
-            await towerEventsService.createComment(postData)
+                    AppState.activeEvent.isCanceled = true
+                    towerEventsService.cancelEvent(AppState.activeEvent.id)
+                    
                 } catch (error) {
                     logger.log(error);
                 }
             },
-            async createTicket() {
+            async createComment() {
                 try {
-                    const newTicket = { eventId: activeEvent.eventId, accountId: account.id }
-                    AppState.myTickets = await getMyTickets()
-                    const foundTicket = AppState.myTickets.find(ticket => ticket.eventId === newTicket.eventId);
-                    if (foundTicket) {
-                        Pop.toast("You already have a ticket for this event")
+                    const trimmedComment = postData.value.trim();
+                    if (trimmedComment.length == 0) {
+                        Pop.toast("Comments must contain a body")
                         return
-                    } else {
-                        const eventId = route.params.id
-                        await towerEventsService.createTicket(newTicket)
                     }
+                    await towerEventsService.createComment(postData.value)
+                } catch (error) {
+                    logger.log(error);
+                }
+            },
+            async deleteComment(commentId) {
+                try {
+                    await towerEventsService.deleteComment(commentId)
+                    
+                } catch (error) {
+                    next(error);
+                }
+            },
+            async createTicket() {
+                if (AppState.activeEvent.capacity == 0) {
+                    Pop.toast("Im sorry but this event is sold out")
+                    return
+                }
+                try {
+                    
+                    const newTicket = { eventId: AppState.activeEvent.id }
+                    await towerEventsService.createTicket(newTicket)
+
+                } catch (error) {
+                    logger.log(error);
+                }
+            },
+            async deleteTicket() {
+                try {
+                    
+                    const cancelledTicket = AppState.myTickets.find(t => t.eventId == AppState.activeEvent.id)
+                    logger.log(cancelledTicket)
+                    await towerEventsService.deleteTicket(cancelledTicket.id)
                 } catch (error) {
                     logger.log(error);
                 }
@@ -223,7 +255,10 @@ export default {
             tickets: computed(() => AppState.tickets),
             comments: computed(() => AppState.comments),
             activeEvent: computed(() => AppState.activeEvent),
+            isCanceled: computed(() => AppState.activeEvent?.isCanceled),
             isCreator: computed(() => AppState.activeEvent?.creatorId == AppState.account?.id),
+            isAttending: computed(() => AppState.myTickets.find(c => c.eventId == AppState.activeEvent?.id)),
+            
 
 
         }
@@ -233,6 +268,22 @@ export default {
 
 
 <style lang="scss" scoped>
+.banner-container {
+    position: relative;
+    width: 100%;
+    height: 95%;
+    /* Adjust the height as needed */
+    overflow: hidden;
+}
+
+.banner-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+
+}
+
 .teal {
     color: #79E7AB;
 }

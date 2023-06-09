@@ -18,7 +18,7 @@
             <img :src="user.picture" alt="" >
           </div>
           <router-link v-if="user.isAuthenticated" :to="{ name: 'Account' }" style="height: 2rem;">
-            <button class="transparent-button m-1 rounded">Account</button>
+            <button class="transparent-button m-1 rounded" style="width: 6rem;">Account</button>
           </router-link>
           <button @click="login()" v-if="!user.isAuthenticated" class="transparent-button rounded m-1">Login</button>
           <button @click="logout()" v-else="" class="transparent-button m-1 rounded">Logout</button>
