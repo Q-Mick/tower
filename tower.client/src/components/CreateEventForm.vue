@@ -33,7 +33,7 @@
                     <label for="floatingInput">Description</label>
                 </div>
                 <div>
-                    <label class="m-1" for="floatingInput">Type</label>
+                    <label class="m-1" for="floatingInput">Category</label>
                     <select name="category" id="category" v-model="editable.category">
                         <option value="concert">Concert</option>
                         <option value="convention">Convention</option>
@@ -43,23 +43,21 @@
                 </div>
 
                 <!-- TODO fix date picker -->
-                <div class="form-group">
-    <label for="datepicker">Select a date:</label>
-    <div class="input-group date" id="datepicker">
-      <input type="text" class="form-control" name="date" id="date" placeholder="Select a date" readonly>
-      <div class="input-group-append">
-        <span class="input-group-text">
-          <i class="bi bi-calendar"></i>
-        </span>
-      </div>
-    </div>
-  </div>
-<!-- 
-
-    this.location = data.location;
-    this.capacity = data.capacity; -->
+                <form>
+                    <div class="form-group">
+                        <label for="date">Event date:</label>
+                        <input type="date" class="form-control" id="date" name="date">
+                    </div>
+                    <div class="form-group">
+                        <label for="time">Event time:</label>
+                        <input type="time" class="form-control" id="time" name="time">
+                    </div>
+                </form>
 
 
+                <!-- 
+this.location = data.location;
+this.capacity = data.capacity; -->
 
 
 
