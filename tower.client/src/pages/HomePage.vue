@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col-12">
-      <h1 class="mx-4">Tower</h1>
+      <h1 class="mx-5 text-white">Tower</h1>
     </div>
 
     <div class="row justify-content-center">
@@ -88,11 +88,12 @@ body {
 }
 
 .filter-bar {
-  background: #474C61;
+  background: linear-gradient(1turn, #121218, rgba(18, 18, 24, 0));
+  // background: #474C61;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 3px;
   width: auto;
-
+// border: 1px solid black;
   button{
     margin-left: 2px;
   }

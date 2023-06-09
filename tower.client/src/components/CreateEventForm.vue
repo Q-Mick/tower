@@ -12,24 +12,61 @@
                         v-model="editable.name">
                     <label for="floatingInput">Event Title</label>
                 </div>
-                <div class="form-floating">
+                <div class="form-floating mb-3">
                     <input type="text" class="form-control" id="floatingPassword" placeholder="Cover Image"
+                        v-model="editable.location">
+                    <label for="floatingPassword">Location</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingInput" placeholder="Event Name"
                         v-model="editable.coverImg">
-                    <label for="floatingPassword">Cover Image</label>
+                    <label for="floatingInput">Event Image</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingInput" placeholder="Event Name"
+                        v-model="editable.capacity" maxlength="5">
+                    <label for="floatingInput">Capacity</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <textarea type="text" class="form-control" id="floatingInput" placeholder="description"
+                        v-model="editable.description" maxlength="500" />
+                    <label for="floatingInput">Description</label>
                 </div>
                 <div>
+                    <label class="m-1" for="floatingInput">Type</label>
                     <select name="category" id="category" v-model="editable.category">
-                        <option value="concert">Cats</option>
-                        <option value="convention">Pugs</option>
-                        <option value="sport">Games</option>
-                        <option value="digital">Books</option>
-                        
+                        <option value="concert">Concert</option>
+                        <option value="convention">Convention</option>
+                        <option value="sport">Sport</option>
+                        <option value="digital">Digital</option>
                     </select>
                 </div>
+
+                <!-- TODO fix date picker -->
+                <div class="form-group">
+    <label for="datepicker">Select a date:</label>
+    <div class="input-group date" id="datepicker">
+      <input type="text" class="form-control" name="date" id="date" placeholder="Select a date" readonly>
+      <div class="input-group-append">
+        <span class="input-group-text">
+          <i class="bi bi-calendar"></i>
+        </span>
+      </div>
+    </div>
+  </div>
+<!-- 
+
+    this.location = data.location;
+    this.capacity = data.capacity; -->
+
+
+
+
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Create Album</button>
+                <button type="submit" class="btn btn-primary">Create Event</button>
             </div>
         </form>
 

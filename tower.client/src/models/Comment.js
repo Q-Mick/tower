@@ -15,12 +15,14 @@ function formatDateAndTime(dateString) {
 }
 
 export class Comment{
-constructor(){
-    this.id = data.id
+constructor(data){
+    this.body = data.body
+    this.createdAt = data.createdAt
+    this.creator = data.creator
+    this.picture = data.creator.picture
     this.creatorId = data.creatorId
     this.eventId = data.eventId
-    this.body = data.body
-    this.creator = data.creator
+    this.id = data.id
     
 }
 }

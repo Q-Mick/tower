@@ -19,17 +19,18 @@ function formatDateAndTime(dateString) {
 export class TowerEvent {
   constructor(data) {
     this.id = data.id;
-    this.creatorId = data.creatorId;
+    this.creatorId = data.creatorId
     this.name = data.name;
     this.description = data.description;
     this.coverImg = data.coverImg;
     this.location = data.location;
     this.capacity = data.capacity;
-    this.startDate = formatDateAndTime(data.startDate).formattedDate;
-    this.startTime = formatDateAndTime(data.startDate).formattedTime
+    this.startDate = formatDateAndTime(data.startDate).formattedDate || formatDateAndTime(new Date).formattedDate
+    this.startTime = formatDateAndTime(data.startDate).formattedTime || formatDateAndTime(new Date).formattedTime
     this.isCanceled = data.isCanceled;
     this.type = data.type;
     this.ticketCount = data.ticketCount;
     this.creator = data.creator
+    this.comment = data.comment
   }
 }
