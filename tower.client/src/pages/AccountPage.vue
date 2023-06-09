@@ -3,71 +3,64 @@
     <div class="col-8">
 
       <div class="card-body mx-1">
-        
+
         <div class="post-card elevation-5 mt-3" v-if="account">
-          
+
           <!-- <div class="banner-container">
               <img class="" :src="account?.coverImg" :alt="account.name">
             </div> -->
-      
-            <div class="row">
-              <div class="col-12" >
-                <div class="avatar-container" >
-                  <img class :src="account.picture" :alt="account.name">
-                  
-                </div>
-                
-                <p v-if="account.graduated" class="m-0 pt-0 mx-1 p-1">{{ account.class }} alumni</p>
-                <h5 class="pt-0 mx-1 p-1">{{ account.name }}</h5>
-                <p class="mb-1 mx-1 p-1">{{ account.bio }}</p>
-              </div>
-              <div class="text-end">
-                <button class="edit-btn fs-6">Account Details</button>
-              </div>
-              
-            </div>
-          </div>
-          
-        </div>
-       
-        
-      </div>
-    </div>
-    <div class="row">
-    
-      <div class="col-1 post-card" v-for="t in myTickets" :key="t.id">
-        <router-link :to="{ name: 'EventDetails', params: { id: event.id } }">
 
-<!-- <div :style="{ backgroundImage: 'url(' + event.coverImg + ')' }">
-<p>test</p>
-</div> -->
+          <div class="row">
+            <div class="col-12">
+              <div class="avatar-container">
+                <img class :src="account.picture" :alt="account.name">
+
+              </div>
+
+              <p v-if="account.graduated" class="m-0 pt-0 mx-1 p-1">{{ account.class }} alumni</p>
+              <h5 class="pt-0 mx-1 p-1">{{ account.name }}</h5>
+              <p class="mb-1 mx-1 p-1">{{ account.bio }}</p>
+            </div>
+            <div class="text-end">
+              <button class="edit-btn fs-6">Account Details</button>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+
+    </div>
+  </div>
+  <!-- STUB album card template -->
+
+  <div class="row text-center px-5">
+    <div class="col-md-3 my-2 p-3" v-for="m in myTickets" :key="m.id">
+     
+
+    <router-link :to="{ name: 'EventDetails', params: { id: m.event.id } }">
+
 
 <div class="banner-container rounded elevation-5">
-    <img class="rounded-top" :src="myTicket.event?.coverImg" :alt="myTicket.event?.title">
+    <img class="rounded-top" :src="m.event?.coverImg" :alt="m.event?.title">
 
     <div class="glass-card">
-        <p class="fw-bold my-0">{{ myTicket.event.name }}</p>
-        <p class="my-0">{{ myTicket.event.location }}</p>
-        <p class="my-0">{{ myTicket.event.startDate }}</p>
-        <div v-if="myTicket.!event.isCanceled" class="text-end">
-            <p class="my-0"><span>{{ myTicket.event.capacity - event.ticketCount }}</span> tickets left</p>
+        <p class="fw-bold my-0">{{ m.event.name }}</p>
+        <p class="my-0">{{ m.event.location }}</p>
+        <p class="my-0">{{ m.event.startDate }}</p>
+        <div v-if="!m.event.isCanceled" class="text-end">
+            <p class="my-0"><span>{{ m.event.capacity - m.event.ticketCount }}</span> tickets left</p>
         </div>
-        <div v-if="event.isCanceled" class="text-center bg-danger text-dark">
+        <div v-if="m.event.isCanceled" class="text-center bg-danger text-dark">
             Event Canceled
         </div>
     </div>
 
 </div>
 </router-link>
-                </div>
-  
-          
-          
-    
-
-    
-    </div>
-
+</div>
+  </div> 
 
 </template>
 
@@ -84,11 +77,7 @@ import { towerEventsService } from '../services/TowerEventsService.js';
 export default {
   setup() {
     const editable = ref({})
-    watchEffect(() => {
-      editable.value = { ...AppState.account }
-    })
-
-
+    
     return {
       myTickets: computed(() => AppState.myTickets),
       account: computed(() => AppState.account),
@@ -96,11 +85,11 @@ export default {
       allEvents: computed(() => AppState.events),
       events: computed(() => {
         AppState.events.filter((e => e.creatorId == AppState.account.id))
-       
+
       }),
-      
-      
-     
+
+
+
     }
   }
 }
@@ -108,7 +97,6 @@ export default {
 
 
 <style lang="scss" scoped>
-
 input[type="checkbox"] {
   width: 20px;
   height: 20px;
@@ -120,7 +108,7 @@ input[type="checkbox"] {
 
 
 input[type="checkbox"]:checked::before {
-  
+
   display: block;
   width: 100%;
   height: 100%;
@@ -243,4 +231,5 @@ input::placeholder {
   width: 100%;
   height: 100%;
   object-fit: cover;
-}</style>
+}
+</style>
